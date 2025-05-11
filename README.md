@@ -132,15 +132,15 @@ This project aims to accurately identify and classify various Iranian car models
 
 ## Testing result
 
-- accuracy                         0.8919      1323
-- macro avg     0.8922    0.8941    0.8922      1323
-- weighted avg     0.8935    0.8919    0.8917      1323
+- Test Loss : 0.3505
+- Accuracy                         0.8919      1323
+- Macro avg     0.8922    0.8941    0.8922      1323
+- Weighted avg     0.8935    0.8919    0.8917      1323
 
 - Precision(macro): 0.8922
 - Recall(macro):    0.8941
 - F1 Score(macro):  0.8922
 - F1 Score(micro):  0.8919
-- Test Loss : 0.30
 
 ---
 
