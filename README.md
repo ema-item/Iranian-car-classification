@@ -104,7 +104,7 @@ This project aims to accurately identify and classify various Iranian car models
 * **Initial Learning Rate**: 1e-3
 * **Scheduler**: Reduce LR on plateau down to 1e-4
 * **Batch Size**: 32
-* **Epochs**: Typically 20–30 (configurable)
+* **Epochs**: 5
 * **Callbacks**: LearningRateScheduler, ModelCheckpoint, EarlyStopping (optional)
 
 ---
