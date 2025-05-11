@@ -1,69 +1,134 @@
-# Iranian Car Fine-Grained Image Classification (FGIC)
+# Iranian Car Fine-Grained Image Classification
 
-## Overview
+## Project Overview
 
-This project presents a Fine-Grained Image Classification (FGIC) system tailored for Iranian car models. Given the visual similarity of various Iranian vehicles, this task focuses on identifying subtle features that distinguish between classes using deep learning.
+This project aims to accurately identify and classify various Iranian car models using advanced Fine-Grained Image Classification techniques. Leveraging a pretrained **ResNet-50 backbone**, dual **CBAM attention modules**, and **bilinear pooling**, the model distinguishes subtle visual differences between closely related car classes.
 
-The project applies a custom Convolutional Neural Network (CNN) model, enhanced by data augmentation and regularization, to achieve strong classification performance.
+---
 
-## Contents
+## Key Features
 
-- `Iranian_car_FGIC.ipynb`: Full project notebook including:
-  - Image loading and visualization
-  - Data augmentation and preprocessing
-  - Custom CNN design
-  - Training and validation
-  - Performance evaluation and visualizations
-- Output figures and graphs:
-  - Accuracy & loss plots
-  - Confusion matrix
-  - Model predictions
+* **Transfer Learning** with ResNet-50 pretrained on ImageNet for robust feature extraction
+* **Dual CBAM Modules** (Channel & Spatial Attention) to focus on critical image regions
+* **Bilinear Pooling** for rich feature interaction
+* Comprehensive **Data Augmentation**: Random rotations, flips, brightness shifts
+* Custom **Learning Rate Scheduler** and optional **Early Stopping**
+* Detailed evaluation: Confusion matrix, classification report, and Grad-CAM visualizations
 
-## Dataset
+---
 
-The dataset contains labeled images of Iranian cars, categorized by make and model. Data augmentation techniques such as flipping, zooming, and rotation were applied to increase dataset diversity.
+## Repository Structure
 
-## Data Preprocessing & Augmentation
+```plaintext
+├── data/
+│   ├── train/
+│   └── val/
+├── notebooks/
+│   └── Iranian_car_FGIC.ipynb
+├── models/
+│   └── best_model.h5
+├── requirements.txt
+└── README.md
+```
 
-Before training the model, all images were preprocessed to ensure consistency and improve model performance:
+---
 
-- **Resizing**: All images were resized to a uniform size to match model input dimensions.
-- **Normalization**: Pixel values were scaled to the [0, 1] range for stable gradient flow.
-- **Splitting**: The dataset was split into training and validation sets using a stratified approach to preserve class distribution.
-- **Cleaning**: Duplicate or corrupted images were removed from the dataset.
+## Installation
 
-To improve the model's generalization and combat overfitting, several **data augmentation techniques** were applied:
+1. **Clone the repository**:
 
-- Horizontal and vertical flipping
-- Random rotation
-- Zoom and brightness adjustments
-- Cropping and shifting
+   ```bash
+   git clone https://github.com/ema-item/Iranian-car-classification.git
+   cd Iranian-car-classification
+   ```
+2. **Create and activate a virtual environment** (optional but recommended):
 
-These augmentations simulate real-world variability and help the model learn robust features across different views and lighting conditions.
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate    # Windows
+   ```
+3. **Install dependencies**:
 
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## Usage
+
+1. **Prepare your data**: Organize your images under `data/train` and `data/val` folders, each containing subfolders named after the 13 car model classes.
+2. **Configure parameters**: Open `notebooks/Iranian_car_FGIC.ipynb` and adjust:
+
+   * `DATA_DIR`: Path to your dataset
+   * `BATCH_SIZE`, `EPOCHS`, `LEARNING_RATE`
+   * Data augmentation options
+3. **Run the notebook**:
+
+   ```bash
+   jupyter notebook notebooks/Iranian_car_FGIC.ipynb
+   ```
+4. **View results**: Training/validation curves, confusion matrix, classification report, and Grad-CAM heatmaps will be generated inline.
+
+---
+
+## Dataset & Preprocessing
+
+* **Image formats**: JPEG or PNG
+* **Number of classes**: 13 distinct Iranian car models
+* **Train/Validation split**: Stratified splitting to preserve class balance
+* **Preprocessing pipeline**:
+
+  * Resize to network input dimensions
+  * Pixel normalization via `tf.keras.applications.resnet.preprocess_input`
+  * Real-time data augmentation: rotations, flips, brightness adjustments
+
+---
 
 ## Model Architecture
 
-The CNN model includes:
-- Multiple convolution layers with ReLU activation
-- MaxPooling layers
-- Dropout for regularization
-- Fully connected layers leading to a softmax classifier
+1. **Backbone**: ResNet-50 pretrained on ImageNet
+2. **CBAM Attention**:
 
-## Evaluation
+   * **Channel Attention**: Learns to emphasize informative feature maps
+   * **Spatial Attention**: Focuses on important spatial regions
+3. **Bilinear Pooling**: Combines channel-wise features for richer representations
+4. **Classification Head**: Fully connected layers with softmax activation for 13-way classification
 
-The model was evaluated on accuracy and loss across epochs, confusion matrix, and visual inspection of predictions. Results indicate the model effectively distinguishes between visually similar car types.
+---
 
-## Final Results
+## Training Configuration
 
-- Validation Accuracy: *~89%*
-- Number of Classes: *13 (Iranian car models)*
-- Training Configuration:
-  - Hardware: Trained on CPU
-  - Epochs: 5
-  - Initial Learning Rate: 0.0010
-  - Learning Rate Adjustment: Reduced to 1.0000e-04 after epoch 2 using a custom scheduler
-  - Batch Size: 32
+* **Optimizer**: Adam
+* **Initial Learning Rate**: 1e-3
+* **Scheduler**: Reduce LR on plateau down to 1e-4
+* **Batch Size**: 32
+* **Epochs**: Typically 20–30 (configurable)
+* **Callbacks**: LearningRateScheduler, ModelCheckpoint, EarlyStopping (optional)
+
+---
+
+## Results & Analysis
+
+* **Validation Accuracy**: \~89% (baseline)
+* **Detailed Metrics**: Precision, recall, and F1-score per class in the classification report
+* **Visual Insights**:
+
+  * Confusion matrix highlights most misclassified pairs
+  * **Grad-CAM** heatmaps reveal model focus areas on sample images
+
+---
+
+## Future Enhancements
+
+* **Full Fine-Tuning**: Unfreeze deeper layers of ResNet-50 for end-to-end training
+* **Advanced Augmentation**: Integrate MixUp, CutMix, and Random Erasing
+* **Cross-Validation**: Implement K-Fold to ensure robustness and reduce variance
+* **Attention Variants**: Experiment with alternative attention mechanisms like SE blocks
+* **Hyperparameter Tuning**: Leverage tools like Optuna or Hyperopt for automated search
+
+---
 
 ## Testing result
 
@@ -75,6 +140,9 @@ The model was evaluated on accuracy and loss across epochs, confusion matrix, an
 - Recall(macro):    0.8941
 - F1 Score(macro):  0.8922
 - F1 Score(micro):  0.8919
+- Test Loss : 0.30
+
+---
 
 ## Visualizations
 
@@ -90,6 +158,13 @@ The model was evaluated on accuracy and loss across epochs, confusion matrix, an
 
 ![Sample Predictions](download(2).png)
 
+---
+
+## License
+
+This project is released under the **MIT License**. Feel free to use, modify, and distribute.
+
+---
 ## How to Run
 
 1. Clone or download this repository.
