@@ -11,8 +11,8 @@ This project aims to accurately identify and classify various Iranian car models
 * **Transfer Learning** with ResNet-50 pretrained on ImageNet for robust feature extraction
 * **Dual CBAM Modules** (Channel & Spatial Attention) to focus on critical image regions
 * **Bilinear Pooling** for rich feature interaction
-* Comprehensive **Data Augmentation**: Random rotations, flips, brightness shifts
-* Custom **Learning Rate Scheduler** and optional **Early Stopping**
+* Comprehensive
+* Custom **Learning Rate Scheduler**
 * Detailed evaluation: Confusion matrix, classification report, and Grad-CAM visualizations
 
 ---
@@ -105,7 +105,7 @@ This project aims to accurately identify and classify various Iranian car models
 * **Scheduler**: Reduce LR on plateau down to 1e-4
 * **Batch Size**: 32
 * **Epochs**: 5
-* **Callbacks**: LearningRateScheduler, ModelCheckpoint, EarlyStopping (optional)
+* **Callbacks**: LearningRateScheduler(optional)
 
 ---
 
